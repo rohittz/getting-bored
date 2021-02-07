@@ -1,5 +1,6 @@
 let yesBtn = document.getElementById("yes");
 let absYesBtn = document.getElementById("abs-yes");
+let refreshInterval;
 function fetchNew(){
 	fetch("https://www.boredapi.com/api/activity/")
 		.then(rawData => rawData.json())
@@ -20,12 +21,15 @@ function doStuff(data){
 	}
 }
 let yesClicked = function(){
+	clearInterval(refreshInterval);
 	fetchNew();
 	document.getElementById("suggestion").style.backgroundColor = "white";
 	document.getElementById("suggestion").style.color= "gray";
 }
 let absYesClicked = function(){
-	fetchNew();
+	refreshInterval = setInterval(function(){
+		fetchNew();
+	}, 3000);
 	document.getElementById("suggestion").style.backgroundColor = "gray";
 	document.getElementById("suggestion").style.color= "white";
 
